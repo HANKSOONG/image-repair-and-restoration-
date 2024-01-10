@@ -33,9 +33,28 @@ To resize and normalize images using transforms:
 
 &#8226; Resize the input image to a height of 360 pixels and a width of 640 pixels,
 
-&#8226; Scale the data from [0, 255] to floating-point numbers in the range [0.0, 1.0]
+&#8226; Scale the data from [0, 255] to floating-point numbers in the range [0.0, 1.0],
 
 &#8226; Utilize the mean and standard deviation from ImageNet(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]).
 
+### Optimizer and Learning Rate Scheduler:
+
+&#8226; Use the Adam optimizer for optimizing the model parameters,
+
+&#8226; Implement the ReduceLROnPlateau scheduler to reduce the learning rate based on the validation set loss, allowing for faster detection of convergence during training.
+
+### Automatic Mixed Precision Training:
+
+&#8226; Use GradScaler and autocast are used for automatic mixed precision training to enhance training speed and reduce memory consumption.
+
+### Perceptual criterion
+
+&#8226; Initialize the pre-trained model of MobileNetV3, switch it to evaluation mode, disable gradient computation for all parameters, and pass input images and target images through the feature extraction part of MobileNetV3 to obtain the perceptual loss.
+
+### Early Stopping
+To prevent overfitting, stop training when the model doesn't show improvement on the validation set for multiple consecutive epochs.
+
+
+## Models training process
 ### DnCNN
 The DnCNN is an efficient deep learning model to estimate a residual image from the input image with the Gaussian noise. The underlying noise-free image can be estimated as the difference between the noisy image and the residue image.

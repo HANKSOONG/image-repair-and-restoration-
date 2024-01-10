@@ -1,2 +1,2 @@
 # image-repair-and-restoration-
- Image restoration project using DnCNN (denoising), UNet (deblurring), EDSR (super-resolution), and Unsharp Mask sharpening.
+This project is an assignment for my master's course in Deep Learning for Image & Video Processing.

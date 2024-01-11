@@ -56,5 +56,28 @@ To prevent overfitting, stop training when the model doesn't show improvement on
 
 
 ## Models training process
-### DnCNN
+### 1. DnCNN (denoising)
 The DnCNN is an efficient deep learning model to estimate a residual image from the input image with the Gaussian noise. The underlying noise-free image can be estimated as the difference between the noisy image and the residue image.
+
+1. Following the typical definition of the DnCNN denoising model, all images were resized to (360x640) dimensions. An initial learning rate of 0.0001 was set, and the blurry images from the GOPRO dataset training set were processed. The mean squared error (MSE) weight was set to 1, and the perceptual loss weight to 0.1. The total loss function was defined as the sum of MSE and perceptual loss, each multiplied by their respective weights. After training for 48 epochs, the initial pre-trained model was obtained.
+
+2. After obtaining the initial pre-trained model, fine-tuning was performed by incorporating gamma-corrected blurry images from the GOPRO dataset into the training process. After training for 66 epochs, the second version of the denoising model was achieved.
+
+3. Building upon the second version of the denoising model, all images were resized to (640x360) dimensions, and gamma-corrected blurry images from the GOPRO dataset were included in the fine-tuning process. After training for 58 epochs, the final denoising model was obtained, with training loss of 0.0971 and validation loss of 0.0939. At this point, the average PSNR (Peak Signal-to-Noise Ratio) between the denoised and sharp images was 27.534344376687045, and the average SSIM (Structural Similarity Index) was 0.8861683441454328.
+
+### 2. U-Net (deblurring)
+U-Net is a convolutional neural network that was developed for biomedical image segmentation at the Computer Science Department of the University of Freiburg. The network is based on a fully convolutional neural network whose architecture was modified and extended to work with fewer training images and to yield more precise segmentation. U-Net is particularly well-suited for image deblurring tasks because it can combine low-level and high-level feature information and preserve details through skip connections, which is crucial for recovering clear image content.
+
+1. Iterating through all the blurry images in the GOPRO training dataset, standardize and resize them to (360x640) dimensions to use as input for the pre-trained DnCNN model, resulting in denoised images. These denoised images are then input into the pre-trained U-Net model. With an MSE weight of 1 and a perceptual loss weight of 0.1, the total loss function is defined as the sum of MSE and perceptual loss, each multiplied by their respective weights. After training for 77 epochs, the initial pre-trained model is obtained.
+
+2. After obtaining the initial pre-trained model, the denoised images were gamma-corrected with a gamma value set to 0.7. Simultaneously, the Real-World Blur Dataset was introduced, incorporating denoised images, gamma-corrected denoised images, and images from the Real-World Blur Dataset. After training for 82 epochs, the second version of the denoising model was achieved.
+
+3. Resize the original images to (640x360) dimensions and input them into the DnCNN model to obtain denoised images. Building upon the second version of the denoising model, fine-tune the U-Net model, and after training for 73 epochs, the third version of the model is obtained.
+
+4. It was observed that the edge effects in the output of the third version of the model were not satisfactory. To address this issue, Sobel operator-based loss functions were introduced with a weight of 1 and added to the total loss function. After an additional 22 epochs of fine-tuning, the final deblurred images were obtained. At this point, the training loss was 0.4154, the validation loss was 0.3835, the average PSNR (Peak Signal-to-Noise Ratio) between the deblurred and sharp images was 30.53310718621717, and the average SSIM (Structural Similarity Index) was 0.9275970462578953.
+
+### 3. EDSR (super-resolution)
+EDSR is an enhanced deep residual network for single-image super-resolution, widely used for super-resolution tasks. Due to GPU performance limitations and image size constraints, I simply input the deblurred images obtained from U-Net, which are (640x360) in size, into EDSR to train a super-resolution model that increases the image resolution by a factor of two to (1280x720). With an MSE weight of 1 and a perceptual loss weight of 0.1, the total loss function is defined as the sum of MSE and perceptual loss, each multiplied by their respective weights. After training for 94 epochs, the initial pre-trained model is obtained with a training loss of 0.1240, a validation loss of 0.1320, an average PSNR (Peak Signal-to-Noise Ratio) of 25.400591350396446, and an average SSIM (Structural Similarity Index) of 0.8580290584552883.
+
+### 4. joint model
+After obtaining the three models, I employed a joint training approach. With an MSE weight of 1, a perceptual loss weight of 0.1, and an edge loss weight of 0.2, the total loss function was defined as the sum of MSE, perceptual loss, and edge loss, each multiplied by their respective weights. After training for 10 epochs, the final model was achieved, with a training loss of 0.2358, a validation loss of 0.1736, an average PSNR (Peak Signal-to-Noise Ratio) between deblurred and sharp images of 24.629592931317745, and an average SSIM (Structural Similarity Index) of 0.8670229522462696.

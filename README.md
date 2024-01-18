@@ -9,7 +9,7 @@ In completing this project, I used Google Colab with the NVIDIA V100 (16GB) hard
 
 ## Dataset of Images
 
-The main training for this project is performed using the GOPRO dataset, which can be accessed at https://seungjunnah.github.io/Datasets/gopro.
+The main training for this project is performed using the GOPRO\_Large dataset, which can be accessed at https://seungjunnah.github.io/Datasets/gopro.
 
 Additionally, data augmentation is applied during the deblurring phase using the Real-World Blur Dataset, available at http://cg.postech.ac.kr/research/realblur/.
 

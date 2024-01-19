@@ -1,7 +1,7 @@
 # image-repair-and-restoration-
 This project is an assignment for my master's course in Deep Learning for Image & Video Processing.
 
-In this project, I sequentially utilize DnCNN (denoising), UNet (deblurring), EDSR (super-resolution), and Unsharp Mask sharpening in order to achieve the restoration of blurry images in medium to high resolutions (640x360) to (1280x720), as well as enhancing the clarity of medium-resolution (640x360) images.
+In this project, I sequentially utilize DnCNN (denoising), UNet (deblurring), EDSR (super-resolution) in order to achieve the restoration of blurry images in medium to high resolutions (640x360) to (1280x720), as well as enhancing the clarity of medium-resolution (640x360) images.
 
 The recommended input size for the model is (640x360) or (360x640).
 

@@ -17,6 +17,14 @@ Data augmentation is applied during the deblurring phase using the Real-World Bl
 
 Data augmentation is applied during the deblurring phase using the LSDIR Dataset, available at https://data.vision.ee.ethz.ch/yawli/.
 
+## Code
+The initial code for the section 'Define and initialize the neural network' comes from PyTorch: https://pytorch.org/tutorials/recipes/recipes/defining_a_neural_network.html.
+
+The fine-tuning code of the model differs from the training code only in the part where the pre-trained model is loaded. Therefore, I have not uploaded the fine-tuning code.
+
+## Model
+The pre-trained weights of the model can be obtained from https://drive.google.com/drive/folders/17U7pkEUPILrAtDx19CdSUyG8EUrN6e1c?usp=sharing.
+
 ## Methods for evaluating performance
 To evaluate the performance of the project's results, used image quality metrics：
 

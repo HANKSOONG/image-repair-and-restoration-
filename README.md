@@ -15,7 +15,7 @@ The main training for this project is performed using the GOPRO\_Large dataset, 
 
 Data augmentation is applied during the deblurring phase using the Real-World Blur Dataset, available at http://cg.postech.ac.kr/research/realblur/.
 
-Data augmentation is applied during the deblurring phase using the LSDIR Dataset, available at https://data.vision.ee.ethz.ch/yawli/
+Data augmentation is applied during the deblurring phase using the LSDIR Dataset, available at https://data.vision.ee.ethz.ch/yawli/.
 
 ## Methods for evaluating performance
 To evaluate the performance of the project's results, used image quality metrics：

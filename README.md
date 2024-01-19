@@ -7,11 +7,15 @@ The recommended input size for the model is (640x360) or (360x640).
 
 In completing this project, I used Google Colab with the NVIDIA V100 (16GB) hardware accelerator.
 
+The final model, when tested on the GOPRO\_Large datasets test set, achieved an average PSNR (Peak Signal-to-Noise Ratio) of 28.957791 and an average SSIM (Structural Similarity Index Measure) of 0.737406352.
+
 ## Dataset of Images
 
 The main training for this project is performed using the GOPRO\_Large dataset, which can be accessed at https://seungjunnah.github.io/Datasets/gopro.
 
-Additionally, data augmentation is applied during the deblurring phase using the Real-World Blur Dataset, available at http://cg.postech.ac.kr/research/realblur/.
+Data augmentation is applied during the deblurring phase using the Real-World Blur Dataset, available at http://cg.postech.ac.kr/research/realblur/.
+
+Data augmentation is applied during the deblurring phase using the LSDIR Dataset, available at https://data.vision.ee.ethz.ch/yawli/
 
 ## Methods for evaluating performance
 To evaluate the performance of the project's results, used image quality metrics：

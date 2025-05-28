@@ -60,7 +60,7 @@ image-restoration/
 ├── dncnn_sr.ipynb          # Full DnCNN model training + results
 ├── nafnet.ipynb            # Full NAFNet implementation + training (optional)
 ├── old_joint_model_code/   # Original full pipeline code archive
-├── results/                # Output samples + originals + result visualizations
+├── results/                # Output samples + originals + result visualizations + metrics_results
 ├── README.md               # You're reading it
 └── requirements.txt
 ```

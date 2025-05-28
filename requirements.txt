@@ -1,0 +1,7 @@
+torch>=1.13.0
+torchvision
+lpips
+scikit-image
+opencv-python
+matplotlib
+tqdm

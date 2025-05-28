@@ -89,6 +89,8 @@ pip install -r requirements.txt
 
 Then launch `demo.ipynb` to run DnCNN on your own input images.
 
+>  This repo includes a pretrained model and demo script. You do not need to train anything to test results.
+
 ---
 
 ## 🔧 Requirements

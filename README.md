@@ -15,6 +15,16 @@ This project explores deep learning models for restoring blurry low-resolution i
 
 ---
 
+## ✅ Try It Yourself
+
+You can quickly run the pretrained **DnCNN model** using:
+
+[`demo.ipynb`](demo.ipynb)
+
+>  No training needed — just load the weights and run on your own images.
+
+---
+
 ## 📊 Performance Comparison
 
 | Model                | PSNR (↑)  | SSIM (↑)   | LPIPS (↓)  |

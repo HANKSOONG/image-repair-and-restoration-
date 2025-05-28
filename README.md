@@ -6,12 +6,12 @@ This project explores deep learning models for restoring blurry low-resolution i
 
 ## 🚀 Highlights
 
-* 🧠 **DnCNN-SR**: Residual CNN + PixelShuffle-based upsampling
-* 🔬 **NAFNet**: Transformer-inspired architecture (implemented, not used for demo)
-* 🎯 Metrics: PSNR, SSIM, LPIPS
-* 🧪 Losses: MSE, perceptual (VGG), LPIPS
-* ⚙️ Training: AMP, early stopping, ReduceLROnPlateau
-* 📷 Output visualization and metric summary
+*  **DnCNN-SR**: Residual CNN + PixelShuffle-based upsampling
+*  **NAFNet**: Transformer-inspired architecture (implemented, not used for demo)
+*  **Metrics**: PSNR, SSIM, LPIPS
+*  **Losses**: MSE, perceptual (VGG), LPIPS
+*  **Training**: AMP, early stopping, ReduceLROnPlateau
+*  **Output** visualization and metric summary
 
 ---
 

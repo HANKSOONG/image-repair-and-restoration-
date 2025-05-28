@@ -1,89 +1,109 @@
-# Deep Image Restoration: Denoising, Deblurring, and Super-Resolution
+# Image Restoration with DnCNN and NAFNet
 
-This project is a deep learning pipeline for progressive image restoration, developed as part of a Master's-level course on Deep Learning for Image & Video Processing. It integrates multiple tasks including **denoising**, **deblurring**, and **super-resolution** using a sequence of specialized neural architectures: **DnCNN**, **U-Net**, and **EDSR**.
+This project explores deep learning models for restoring blurry low-resolution images. It compares a custom DnCNN-based super-resolution model with a transformer-style NAFNet architecture. Both were implemented and evaluated on the GOPRO and RealBlur-R datasets using Colab Pro (A100 GPU).
 
 ---
 
 ## 🚀 Highlights
 
-* 🛠️ **Multi-stage restoration:** Denoising → Deblurring → Super-resolution
-* 🏠 **Architectures:**
-
-  * DnCNN for Gaussian noise removal
-  * U-Net for motion deblurring with edge enhancement
-  * EDSR for 2x image super-resolution
-* 🔢 **Metrics:** Achieved up to 30.5 PSNR and 0.928 SSIM on GOPRO-Large
-* ⚙️ **Training features:** AMP, ReduceLROnPlateau, MobileNetV3 perceptual loss, Sobel edge loss
-* 📃 **Datasets:** GOPRO-Large, Real-World Blur, LSDIR (augmentation)
+* 🧠 **DnCNN-SR**: Residual CNN + PixelShuffle-based upsampling
+* 🔬 **NAFNet**: Transformer-inspired architecture (implemented, not used for demo)
+* 🎯 Metrics: PSNR, SSIM, LPIPS
+* 🧪 Losses: MSE, perceptual (VGG), LPIPS
+* ⚙️ Training: AMP, early stopping, ReduceLROnPlateau
+* 📷 Output visualization and metric summary
 
 ---
 
-## 💡 Description
+## 📊 Performance Comparison
 
-The restoration pipeline aims to recover high-quality images from degraded ones (e.g. blurry, noisy, low-res). The final model takes blurry 640x360 images as input and outputs enhanced 1280x720 images through three sequential modules:
+| Model                | PSNR (↑)  | SSIM (↑)   | LPIPS (↓)  |
+| -------------------- | --------- | ---------- | ---------- |
+| **DnCNN (demo)**     | **26.80** | **0.8020** | **0.2313** |
+| NAFNet (implemented) | 26.73     | 0.8002     | 0.2377     |
+| Joint model          | 24.63     | 0.8670     | N/A        |
 
-1. **DnCNN** for denoising
-2. **U-Net** for deblurring (with optional Sobel-based loss)
-3. **EDSR** for super-resolution (2x)
-
-These models are trained and fine-tuned independently and jointly. The pipeline uses hybrid losses: MSE + perceptual (MobileNetV3) + edge loss.
-
----
-
-## 📈 Results
-
-| Model       | PSNR | SSIM  |
-| ----------- | ---- | ----- |
-| DnCNN       | 27.5 | 0.886 |
-| U-Net       | 30.5 | 0.928 |
-| EDSR        | 25.4 | 0.858 |
-| Final Joint | 24.6 | 0.867 |
-
-Evaluation was performed on the GOPRO-Large test set.
+> DnCNN showed the best perceptual and numerical performance. NAFNet was successfully implemented but not used in the final visualization due to training instability.
 
 ---
 
-## 📚 Datasets
+## 🖼️ Visual Output
 
-* [GOPRO-Large](https://seungjunnah.github.io/Datasets/gopro) — primary dataset for training and testing
-* [Real-World Blur Dataset](http://cg.postech.ac.kr/research/realblur/) — used for deblurring augmentation
-* [LSDIR Dataset](https://data.vision.ee.ethz.ch/yawli/) — used for super-resolution data augmentation
+![DnCNN Output](figures/dncnn_sr_comparison.png)
 
----
-
-## 🤖 Implementation Notes
-
-* All models trained on Google Colab (V100 16GB)
-* Input size: 640x360 or 360x640
-* Optimizer: Adam + ReduceLROnPlateau
-* Losses: MSE + 0.1 \* Perceptual + 0.2 \* Edge Loss (final stage)
-* AMP: Mixed precision training with GradScaler and autocast
+> Left: LR (padded) | Center: SR (DnCNN) | Right: HR
+> PSNR: 26.80 | SSIM: 0.8020 | LPIPS: 0.2313
 
 ---
 
-## 🔍 Evaluation Metrics
+## 💡 Reflection: Why Simple Beats Complex
 
-* **PSNR**: Peak Signal-to-Noise Ratio
-* **SSIM**: Structural Similarity Index
-* **MSE**: Mean Squared Error
-* **Edge Loss**: Sobel-based gradient difference
-* **Perceptual Loss**: MobileNetV3 feature distance
+We originally tried this cascade:
 
----
+> DnCNN → UNet → EDSR
 
-## 🗃️ Pretrained Weights
+While promising in theory, this chain:
 
-Weights for the final trained models are available here:
-[Google Drive Link](https://drive.google.com/drive/folders/17U7pkEUPILrAtDx19CdSUyG8EUrN6e1c?usp=sharing)
+* Suffered from compounding artifacts
+* Was harder to converge
+* Did not outperform DnCNN alone in PSNR/SSIM/LPIPS
 
----
-
-## 👤 Author Notes
-
-This project was developed independently as part of a course assignment. Some base model scaffolding was adapted from PyTorch tutorials. Training scripts, perceptual loss implementations, and the full multi-stage pipeline were constructed and tuned by the author.
+📌 **Conclusion**: well-designed single models + quality upsampling outperform deep cascades in image restoration.
 
 ---
 
-## 🛋️ Disclaimer
+## 📁 Project Structure
 
-This repository currently does not include fine-tuning scripts due to space constraints. Model paths have been removed. See pretrained model link for outputs.
+```
+image-restoration/
+├── demo.ipynb              # Run DnCNN on test images (quick start)
+├── dncnn_sr.ipynb          # Full DnCNN model training + results
+├── nafnet.ipynb            # Full NAFNet implementation + training (optional)
+├── old_joint_model_code/   # Original full pipeline code archive
+├── results/                # Output samples + originals + result visualizations
+├── README.md               # You're reading it
+└── requirements.txt
+```
+
+---
+
+## 📄 Datasets
+
+* [GOPRO\_Large Dataset](https://seungjunnah.github.io/Datasets/gopro)
+* [RealBlur-R Dataset](https://cg.postech.ac.kr/research/realblur/)
+
+---
+
+## 🔗 DnCNN Model Weights
+
+You can download pretrained DnCNN weights here:
+[Google Drive](https://drive.google.com/file/d/1kX9MaNp3m8B5XAwCfqo9yrXwHhyAEpwP/view?usp=sharing)
+
+---
+
+## 🛠️ Setup
+
+```bash
+pip install -r requirements.txt
+```
+
+Then launch `demo.ipynb` to run DnCNN on your own input images.
+
+---
+
+## 🔧 Requirements
+
+* torch
+* torchvision
+* lpips
+* tqdm
+* matplotlib
+* scikit-image
+* opencv-python
+
+---
+
+## 📬 Contact
+
+Maintained by [Hank Song](https://github.com/HANKSOONG)
+For questions, feel free to open an issue or reach out.

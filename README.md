@@ -31,7 +31,7 @@ This project explores deep learning models for restoring blurry low-resolution i
 
 ![DnCNN Output](results/visual_result.png)
 
-> Left: LR (padded) | Center: SR (DnCNN) | Right: HR
+> Left: LR input (padded, 360x640) | Center: 2x SR output (DnCNN, 720x1280) | Right: HR ground truth  
 > PSNR: 26.80 | SSIM: 0.8020 | LPIPS: 0.2313
 
 ---

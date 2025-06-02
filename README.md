@@ -71,6 +71,7 @@ image-restoration/
 ├── nafnet.ipynb            # Full NAFNet implementation + training (optional)
 ├── old_joint_model_code/   # Original full pipeline code archive
 ├── results/                # Output samples + originals + result visualizations + metrics_results
+├── LICENSE
 ├── README.md               # You're reading it
 └── requirements.txt
 ```
